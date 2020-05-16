@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /Ymir.jpg
-heroText: 来玩呀
+heroText: 来玩呀嘿
 tagline: Maybe Someday.
 actionText: 开始阅读 →
 actionLink: /blog/
