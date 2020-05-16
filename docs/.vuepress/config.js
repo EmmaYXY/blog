@@ -1,7 +1,13 @@
 module.exports = {
   base: "/",
   title: "sisteryang",
+  siteConfig: {
+    title: 'hahah'
+  },
   description: "Hi, it's my new blog based on vuepress.",
+  head: [
+    ['link', { rel: 'icon', href: '/Ymir.jpg' }]
+  ],
   themeConfig: {
     nav: [
       { text: "Home", link: "/" },
