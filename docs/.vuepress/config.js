@@ -1,5 +1,5 @@
 module.exports = {
-  base: "/yang/",
+  base: "/",
   title: "sisteryang",
   description: "Hi, it's my new blog based on vuepress.",
   themeConfig: {
