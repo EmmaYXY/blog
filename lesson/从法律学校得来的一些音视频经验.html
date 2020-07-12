@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>从法律学校得来的一些音视频经验 | sisteryang</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    <link rel="icon" href="/Ymir.jpg">
+    <meta name="description" content="Hi, it's my new blog based on vuepress.">
+    <link rel="preload" href="/assets/css/0.styles.5f628cc9.css" as="style"><link rel="preload" href="/assets/js/app.3b108071.js" as="script"><link rel="preload" href="/assets/js/2.a8d025dd.js" as="script"><link rel="preload" href="/assets/js/17.0376a938.js" as="script"><link rel="prefetch" href="/assets/js/10.fa59633c.js"><link rel="prefetch" href="/assets/js/11.4f441155.js"><link rel="prefetch" href="/assets/js/12.a37a8068.js"><link rel="prefetch" href="/assets/js/13.0f4f52f7.js"><link rel="prefetch" href="/assets/js/14.aa467182.js"><link rel="prefetch" href="/assets/js/15.5beec632.js"><link rel="prefetch" href="/assets/js/16.6965518a.js"><link rel="prefetch" href="/assets/js/18.c0b0bcbc.js"><link rel="prefetch" href="/assets/js/19.7052d89a.js"><link rel="prefetch" href="/assets/js/3.e232f7bd.js"><link rel="prefetch" href="/assets/js/4.685e2bcc.js"><link rel="prefetch" href="/assets/js/5.a85fdaa3.js"><link rel="prefetch" href="/assets/js/6.42b5d586.js"><link rel="prefetch" href="/assets/js/7.149084ac.js"><link rel="prefetch" href="/assets/js/8.cc903289.js"><link rel="prefetch" href="/assets/js/9.e8805932.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.5f628cc9.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sisteryang</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link router-link-active">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link router-link-active">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/lesson/" class="sidebar-link">项目经验</a></li><li><a href="/lesson/A-rough-scan-for-Vue-Router-match-route-and-components-pass-values-and-navigate.html" class="sidebar-link">A rough scan for Vue Router: match route and components, pass values and navigate</a></li><li><a href="/lesson/从法律学校得来的一些音视频经验.html" class="active sidebar-link">从法律学校得来的一些音视频经验</a></li><li><a href="/lesson/工作中某次接口优化暴露的一些问题和个人反思.html" class="sidebar-link">工作中某次接口优化暴露的一些问题和个人反思</a></li><li><a href="/lesson/Prettier在安监的故事.html" class="sidebar-link">Prettier在安监的故事</a></li><li><a href="/lesson/你这样理解过防抖和节流吗？.html" class="sidebar-link">你这样理解过防抖和节流吗？</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>本文是写下来分享在公司内部的一篇，发在这里备忘充数哈哈哈。正文如下：</p> <p>从接手法律学校音视频业务以来，走了不少坑，将一些主要的总结一下。</p> <p>一是技术选型。HTML5自带有很好的自媒体支持，例如用于媒介回放的 video 和 audio 元素，但其中一大不足是样式无法修改。这对拥有良好UI设计，具有强烈风格的法律学校而言，无疑是无法满足需求的，所以有必要寻找轮子，以达成自定义样式要求。</p> <p>开始选择了Video.js插件，这款插件有很多成功的应用，但最后基于一些原因也没有选择。一是文档，虽详细但无中文，且api分类不明晰，对初次接触的人——没错就是我，在api中翻找很费劲。二是手动销毁播放器时会连带销毁对应的DOM，这给当时的功能实现带来较大的麻烦。三是语法相对啰嗦，就不展开了。</p> <p>后来自己在网上搜索，发现了一个宝贝。就是DPlayer插件，<a href="https://github.com/MoePlayer/DPlayer" target="_blank" rel="noopener noreferrer">点击跳转其github地址<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。</p> <p>学习强国，嘀哩嘀哩，小红书等应用证明它是比较稳定的，且中英文文档均非常友好，对视频格式的支持也很多样，对新手友好等等优点让在下迫不及待与卜同学分享，并最终选择了它。对了，由同一作者开发的APlayer插件是一款音频插件，此处也是真香警告。</p> <p>选型完成，接下来就是实现功能。很多与怪兽搏斗的经历都忘了，除了它，currentTime。有很多bug都指向了这个问题，即拖动进度条会产生一系列诡异效果。开始不清楚什么原因，想着通过手动设置媒体的currentTime尝试解决，并不如意，就搜了搜，才发现问题所在：Chrome浏览器不支持音视频媒体的currentTime属性，这直接导致了进度条失效，在每次拖动后都重置为0。找到问题就解决问题的一半了，哈哈哈，我果然是个哲学家。</p> <p>经过不断尝试和搜索，确定了这是和response headers有关的一个问题，对Chrome来说，Content-Type:application/octet-stream,Content-Length 与 Accept-Ranges必须有才可以更改currentTime，使进度条生效。</p> <p>Firefox浏览器支持currentTime。（ps:火狐真得也是个极好的浏览器）</p> <p>工欲善其事，必先利其器。事实证明找对好的轮子是多么重要。</p> <p>内事不决问百度，外事不决问谷歌。这是一首曾经流传于大街小巷的儿歌，然而，时移事易，推荐多用谷歌搜索。我真得很好.jpg</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/lesson/A-rough-scan-for-Vue-Router-match-route-and-components-pass-values-and-navigate.html" class="prev">
+        A rough scan for Vue Router: match route and components, pass values and navigate
+      </a></span> <span class="next"><a href="/lesson/工作中某次接口优化暴露的一些问题和个人反思.html">
+        工作中某次接口优化暴露的一些问题和个人反思
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3b108071.js" defer></script><script src="/assets/js/2.a8d025dd.js" defer></script><script src="/assets/js/17.0376a938.js" defer></script>
+  </body>
+</html>

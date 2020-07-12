@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>监测DOM变化的一大利器——MutationObserver | sisteryang</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    <link rel="icon" href="/Ymir.jpg">
+    <meta name="description" content="Hi, it's my new blog based on vuepress.">
+    <link rel="preload" href="/assets/css/0.styles.5f628cc9.css" as="style"><link rel="preload" href="/assets/js/app.3b108071.js" as="script"><link rel="preload" href="/assets/js/2.a8d025dd.js" as="script"><link rel="preload" href="/assets/js/11.4f441155.js" as="script"><link rel="prefetch" href="/assets/js/10.fa59633c.js"><link rel="prefetch" href="/assets/js/12.a37a8068.js"><link rel="prefetch" href="/assets/js/13.0f4f52f7.js"><link rel="prefetch" href="/assets/js/14.aa467182.js"><link rel="prefetch" href="/assets/js/15.5beec632.js"><link rel="prefetch" href="/assets/js/16.6965518a.js"><link rel="prefetch" href="/assets/js/17.0376a938.js"><link rel="prefetch" href="/assets/js/18.c0b0bcbc.js"><link rel="prefetch" href="/assets/js/19.7052d89a.js"><link rel="prefetch" href="/assets/js/3.e232f7bd.js"><link rel="prefetch" href="/assets/js/4.685e2bcc.js"><link rel="prefetch" href="/assets/js/5.a85fdaa3.js"><link rel="prefetch" href="/assets/js/6.42b5d586.js"><link rel="prefetch" href="/assets/js/7.149084ac.js"><link rel="prefetch" href="/assets/js/8.cc903289.js"><link rel="prefetch" href="/assets/js/9.e8805932.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.5f628cc9.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sisteryang</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link router-link-active">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link router-link-active">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/dom/" class="sidebar-link">DOM欢乐不欢乐</a></li><li><a href="/dom/innerText的另一个兄弟，textContent.html" class="sidebar-link">innerText的另一个兄弟，textContent</a></li><li><a href="/dom/监测DOM变化的一大利器——MutationObserver.html" class="active sidebar-link">监测DOM变化的一大利器——MutationObserver</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>MutationObserver（下文称MO），用来检测DOM mutaion（突变）的API，其出现是对Mutation Event（下文称ME）的替代。</p> <p>一旦DOM发生变化，ME即会调用事件绑定时的回调，如果DOM变化过快过多，这种同步调用会消耗较大性能，从而影响整体体验。而MO与ME最大的不同就在于，MO会将监听到的DOM变化收集起来，当变化完毕时，再一次性处理。这也是我们理解MO API的一个触点。</p> <p>如果要监听下方的DOM，可以有如下几步。</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">contenteditable</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>Finch<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>Reese<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>Root<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>Shaw<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>Lionel<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>一、新建一个MO实例</p> <p>新建MO实例需要一个callback参数，处理监听到的所有DOM mutaions。而收集到的mutations会集成一个数组，作为参数，传递给callback。</p> <p>每个mutation都是一个MutationRecord对象，包含如下内容：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">&quot;characterData&quot;</span><span class="token punctuation">,</span> <span class="token comment">// 变化的类型，例如当文本内容改变时，值为 charaterData</span>
+  target<span class="token operator">:</span> text<span class="token punctuation">,</span> <span class="token comment">// 改变的节点</span>
+  addedNodes<span class="token operator">:</span> NodeList <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 添加的节点</span>
+  removedNodes<span class="token operator">:</span> NodeList <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 删除的节点</span>
+  previousSibling<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// 添加或删除节点的上一个兄弟节点</span>
+  nextSibling<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// 添加或删除节点的下一个兄弟节点</span>
+  attributeName<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// 被改变的属性名</span>
+  attributeNamespace<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// 被改变的属性名命名空间</span>
+  oldValue<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// 根据type不同而有所改变</span>
+  __proto__<span class="token operator">:</span> MutationRecord
+<span class="token punctuation">}</span>
+</code></pre></div><p>更详细的MutationRecord内容可参考<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord" target="_blank" rel="noopener noreferrer">MDN的MutaionRecord页面<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>和<a href="https://www.zhangxinxu.com/wordpress/2019/08/js-dom-mutation-observer/" target="_blank" rel="noopener noreferrer">张鑫旭老师一篇DOM监测的博文<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">mutationCall</span> <span class="token punctuation">(</span><span class="token parameter">mutationArr</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 可以根据变化的类型不同对不同的DOM改变做出处理</span>
+  mutationArr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">m</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>m<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">'attributes'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>m<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">'characterData'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> observer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MutationObserver</span><span class="token punctuation">(</span>mutationCall<span class="token punctuation">)</span>
+</code></pre></div><p>此时我们新建了一个带有callback的MO实例，但要真正开始监测DOM变化，还需要下面一步。</p> <p>二、调用observe方法</p> <p>MO实例有三个方法，observe开始监听，在MO实例与DOM之间搭建一个电话线路，使得MO可以监听到来自该DOM的变化信息。disconnect则是掐断这一线路。实际是一个注册与取消注册的关系。第三个takeRecords先不说。</p> <p>observe需要两个参数，要监测的target和描述要监测什么样的变化的config。target是一个Node，config是一个MutationObserverInit对象：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+  attributes<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// true以监测target节点的属性变动</span>
+  attributeFilter<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 要监测哪些属性的变化，空数组表示所有。必须设置attributes为true。 </span>
+  characterData<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// true以监测节点字符数据的变化</span>
+  subtree<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// true以监测子节点的变化</span>
+  childList<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// true以监测target子节点的添加和删除</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>其中attributes/childList/characterData必须有一个为true，且subtree不可单独为true，否则监听节点的具体什么变动无从得知。更多详细内容可以参考<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverInit" target="_blank" rel="noopener noreferrer">MDN的MutationObserverInit页面<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">let</span> target <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'p'</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> config <span class="token operator">=</span> <span class="token punctuation">{</span>
+  characterData<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  attributes<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  subtree<span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+observer<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> config<span class="token punctuation">)</span> <span class="token comment">// 至此开始监听 p 的DOM变化</span>
+</code></pre></div><p>如果有切断监听的业务需求，MO提供了disconnect方法，阻止MO实例的监听，直到再次调用observe方法。</p> <p>takeRecords常在disconnect方法调用前调用，以收集还未处理的DOM变动，即所有已经检测到但还未向观察者报告的变动。</p> <p>实际上，Vue2的$nextTick API就是用MO实现的，因为MO在整个EventLoop过程里归属于微任务MicroTask，这是我从<a href="https://github.com/answershuto/learnVue/blob/master/docs/Vue.js%E5%BC%82%E6%AD%A5%E6%9B%B4%E6%96%B0DOM%E7%AD%96%E7%95%A5%E5%8F%8AnextTick.MarkDown" target="_blank" rel="noopener noreferrer">Vue.js异步更新DOM策略及nextTick<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>这篇文章得来，也正是这篇文章使我了解到MO API，强烈推荐阅读。</p> <p>PS：以上涉及的例子放在<a href="https://codepen.io/emmayxy/full/rNVYqKo" target="_blank" rel="noopener noreferrer">MO Demo<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/dom/innerText的另一个兄弟，textContent.html" class="prev">
+        innerText的另一个兄弟，textContent
+      </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3b108071.js" defer></script><script src="/assets/js/2.a8d025dd.js" defer></script><script src="/assets/js/11.4f441155.js" defer></script>
+  </body>
+</html>

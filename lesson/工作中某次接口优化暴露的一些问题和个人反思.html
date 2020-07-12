@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>工作中某次接口优化暴露的一些问题和个人反思 | sisteryang</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    <link rel="icon" href="/Ymir.jpg">
+    <meta name="description" content="Hi, it's my new blog based on vuepress.">
+    <link rel="preload" href="/assets/css/0.styles.5f628cc9.css" as="style"><link rel="preload" href="/assets/js/app.3b108071.js" as="script"><link rel="preload" href="/assets/js/2.a8d025dd.js" as="script"><link rel="preload" href="/assets/js/19.7052d89a.js" as="script"><link rel="prefetch" href="/assets/js/10.fa59633c.js"><link rel="prefetch" href="/assets/js/11.4f441155.js"><link rel="prefetch" href="/assets/js/12.a37a8068.js"><link rel="prefetch" href="/assets/js/13.0f4f52f7.js"><link rel="prefetch" href="/assets/js/14.aa467182.js"><link rel="prefetch" href="/assets/js/15.5beec632.js"><link rel="prefetch" href="/assets/js/16.6965518a.js"><link rel="prefetch" href="/assets/js/17.0376a938.js"><link rel="prefetch" href="/assets/js/18.c0b0bcbc.js"><link rel="prefetch" href="/assets/js/3.e232f7bd.js"><link rel="prefetch" href="/assets/js/4.685e2bcc.js"><link rel="prefetch" href="/assets/js/5.a85fdaa3.js"><link rel="prefetch" href="/assets/js/6.42b5d586.js"><link rel="prefetch" href="/assets/js/7.149084ac.js"><link rel="prefetch" href="/assets/js/8.cc903289.js"><link rel="prefetch" href="/assets/js/9.e8805932.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.5f628cc9.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sisteryang</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link router-link-active">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link router-link-active">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/lesson/" class="sidebar-link">项目经验</a></li><li><a href="/lesson/A-rough-scan-for-Vue-Router-match-route-and-components-pass-values-and-navigate.html" class="sidebar-link">A rough scan for Vue Router: match route and components, pass values and navigate</a></li><li><a href="/lesson/从法律学校得来的一些音视频经验.html" class="sidebar-link">从法律学校得来的一些音视频经验</a></li><li><a href="/lesson/工作中某次接口优化暴露的一些问题和个人反思.html" class="active sidebar-link">工作中某次接口优化暴露的一些问题和个人反思</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/lesson/Prettier在安监的故事.html" class="sidebar-link">Prettier在安监的故事</a></li><li><a href="/lesson/你这样理解过防抖和节流吗？.html" class="sidebar-link">你这样理解过防抖和节流吗？</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>工作中某个项目六月份的迭代里有一个前后端配合的优化。但在开发过程及上线后暴露了不少问题和bug，均为前端问题，且直接指向具体实施人，也就是我。这让自己感到不安，这两天也就此进行了一些思考。想把自己的反思写下来，既想借此复盘一下原因的所在，也想加深印象，以后能尽量规避类似的问题。</p> <p>系统里检查项转责令限期整改/现场处置措施及后续的制作整改复查文书时，是先调取保存业务的接口，再调取制作文书的接口，在前端的直观展现是，点击保存并制作按钮，出现loading，文书制作成功在页面展示。</p> <p>而优化的缘起在于线上会出现保存业务的接口调取成功，而制作文书的接口调取失败的问题。这样业务和文书不一致，对执法过程造成了很大影响。后端在分析后提出并实现了将两个接口合为一个的解决办法，前端部分由我负责。</p> <p>好的，背景交待完毕啦，接下来说说问题吧。</p> <p>主要是四个问题，时间线从上线前一直到上线后。特别是在上线后暴露的两个问题，牵涉了很多人力。从客户使用发现问题，反映给客服，客服与后端人员沟通，后端同事复现和定位问题，并发现是前端的bug，最后和我沟通，修改，再由测试通过后，打包交由运维更包。这一系列流程跨越三到四个工作日，加重了诸多同事的工作，同时也给用户带来了不好的使用体验，甚至会影响到执法流程。而一切都只因我当时开发时的一些所谓的疏漏，和没有想到的地方带来的，每次想到，都很惭愧。</p> <h3 id="第一个是没有更换app的接口。"><a href="#第一个是没有更换app的接口。" class="header-anchor">#</a> 第一个是没有更换APP的接口。</h3> <ul><li><p>产生原因：当时刚刚把PC端排的需求做得八九不离十，脑袋还停留在自己负责PC，APP的事情和我无关的状态。忽视了APP和PC之间联动的关系，而将这一茬彻底抛到脑后，直到上线的那一天下午，经梦雨一问才如梦方醒。</p></li> <li><p>自我分析：我觉得主要原因在于自己只看重自己任务内的一亩三分地，而不愿意多想想，或者并不主动地多想想现在的改动对别人的工作有什么影响，即使自己不做，当时也应该和APP的人通气。</p></li> <li><p>解决方式：这个问题的解决方式是将其放在七月份里的迭代做。因为如果当时修改的话，会增加当天上线的风险。</p></li></ul> <h3 id="第二个是一个-！造成的bug。"><a href="#第二个是一个-！造成的bug。" class="header-anchor">#</a> 第二个是一个 ！造成的bug。</h3> <ul><li><p>bug现象：转现场处置措施时检查内容等在保存后出现带不出来的现象。后来经过代码比对，发现是少了一个感叹号，导致判断新增和修改的条件搞反了。</p></li> <li><p>产生原因：在替换转现场处置措施的接口时，看到原有代码把新增和修改的参数分开处理，但其中又有很多重复的代码，就起了优化一下的想法，把重复的代码合起来，只对在新增和修改时处理方式不同的参数用if...else语句。当时也很细致地进行比对，找到了新增和修改不同处理的参数，但最终还是少了个感叹号。</p></li> <li><p>自我分析：不否认自己想优化的主动性，并且删除冗余代码后的确减少了代码行数，也便于后期维护。但是在修改后还是少了个感叹号，其实有两处参数处理不同，第一处的感叹号加了，第二处的没有，所以猜想是写代码的时候在搞清楚参数处理不同后，就放松懈怠，而不是边写边在脑子里过这行代码在做什么。加上对这里代码的生疏，否则可能一眼就看出问题所在。
+以后在修改代码时，一定要先弄清这里的代码在做什么，和哪里有交互，有关联。在真正动手时，也要大胆地假设，小心地求证。
+第三和第四个是线上发现的问题，隐藏地更为隐秘，一般来说，测试也发现不出来，就更需要开发在写代码时集中注意力，多思多想。</p></li></ul> <h3 id="三是调错了接口。"><a href="#三是调错了接口。" class="header-anchor">#</a> 三是调错了接口。</h3> <ul><li><p>bug现象：整改复查列表页的转办接口不能用了。经后台定位是接口调错了。</p></li> <li><p>产生原因：其实不算是接口调错了。如前文所说，制作整改复查文书是先调业务接口，后调文书制作接口。转办功能，只单纯地调取了业务接口。而我在替换接口时，直接修改了保存业务接口的路径，也就是把/save改成了/saveAndMake，全程脸不红心不跳，我不出bug谁能出。重点在于改过了之后没有全局搜索一下这个接口哪些地方使用了，这样修改会对别的地方有什么影响。</p></li> <li><p>自我分析：其实有思考这个接口在哪里使用，因为这里以前改的较多，所以对组件还蛮熟悉，想到了要修改整个复查和整改延期复查两个模块，以为改完了这两个就万事大吉了，完全没想到全局搜一下是更保险的行为。自以为是，但人的认识特别局限，很多时候你以为自己已经考虑全面，但其实只是某个方面想到了一点，还有很多未知的盲点为你挖坑，你没看到，就迟早会跳。
+永远不要以为自己考虑地已经很全面了，有些时候是需要同事和伙伴们帮你，例如测试帮忙。有时候就需要自己找各种办法寻出自己考虑和认识的盲点，虽然永远也无法真正全面而真实地认识，但越靠近不就越欢喜，越能减少bug，越能做好系统，越能提升能力。</p></li></ul> <h3 id="四是一个很难发现的bug，很隐晦。"><a href="#四是一个很难发现的bug，很隐晦。" class="header-anchor">#</a> 四是一个很难发现的bug，很隐晦。</h3> <ul><li><p>bug现象：保存并制作整改复查意见书，回退编辑并制作一次，点击完成后切换到文书卡片汇总页将其删除，再切换回去保存并制作整改复查意见书，意见书会制作失败。原因是保存接口的updateWritId不应该传。</p></li> <li><p>产生原因：在替换责令限期整改和现场处置措施时，保存后修改都用的一个方法。但是在整改复查里不一样，整改复查之前的修改用的是另一个接口，/updateBatch。其实在查看文书汇总页的修改整改复查文书里看到了这个接口，但当时只想到这样的话，这里的接口就不用换了。丝毫没有考虑到在保存并制作时的修改情况，是没有修改情况的，而updateWritId这个参数当时又考虑到了修改的情况，用了三元表达式判断id是否存在，存在就写，不存在就传空。最后导致了遗留的id在新增情况下也传给后台了，而后台判断id存在，视为修改，自然是查不到，就出问题。</p></li> <li><p>自我分析：一直在想开发时应该如何规避这种bug，需要较为复杂的操作才能复现，同时又不得不承认，每行代码都认真地，细致地去思考可能，很耗精力而自己目前还无法做到，大脑总忍不住开小差，（我就是个指南针，我好南）。而修改后把每一种操作可能都搞一遍不失为一种办法，但可能一旦多了也是不靠谱的。思来想后，最靠谱的还是在做的时候注意力高度集中，才能思考得更集中。同时不断积累经验。</p></li></ul> <p>这四个问题都围绕一个主题，反应了我身上不同的问题。也知道这样一次的反思不会有什么特别深刻的改变，但应该也总会些改变吧。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/lesson/从法律学校得来的一些音视频经验.html" class="prev">
+        从法律学校得来的一些音视频经验
+      </a></span> <span class="next"><a href="/lesson/Prettier在安监的故事.html">
+        Prettier在安监的故事
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3b108071.js" defer></script><script src="/assets/js/2.a8d025dd.js" defer></script><script src="/assets/js/19.7052d89a.js" defer></script>
+  </body>
+</html>

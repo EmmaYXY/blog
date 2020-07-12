@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Prettier在安监的故事 | sisteryang</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    <link rel="icon" href="/Ymir.jpg">
+    <meta name="description" content="Hi, it's my new blog based on vuepress.">
+    <link rel="preload" href="/assets/css/0.styles.5f628cc9.css" as="style"><link rel="preload" href="/assets/js/app.3b108071.js" as="script"><link rel="preload" href="/assets/js/2.a8d025dd.js" as="script"><link rel="preload" href="/assets/js/15.5beec632.js" as="script"><link rel="prefetch" href="/assets/js/10.fa59633c.js"><link rel="prefetch" href="/assets/js/11.4f441155.js"><link rel="prefetch" href="/assets/js/12.a37a8068.js"><link rel="prefetch" href="/assets/js/13.0f4f52f7.js"><link rel="prefetch" href="/assets/js/14.aa467182.js"><link rel="prefetch" href="/assets/js/16.6965518a.js"><link rel="prefetch" href="/assets/js/17.0376a938.js"><link rel="prefetch" href="/assets/js/18.c0b0bcbc.js"><link rel="prefetch" href="/assets/js/19.7052d89a.js"><link rel="prefetch" href="/assets/js/3.e232f7bd.js"><link rel="prefetch" href="/assets/js/4.685e2bcc.js"><link rel="prefetch" href="/assets/js/5.a85fdaa3.js"><link rel="prefetch" href="/assets/js/6.42b5d586.js"><link rel="prefetch" href="/assets/js/7.149084ac.js"><link rel="prefetch" href="/assets/js/8.cc903289.js"><link rel="prefetch" href="/assets/js/9.e8805932.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.5f628cc9.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sisteryang</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link router-link-active">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link router-link-active">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/lesson/" class="sidebar-link">项目经验</a></li><li><a href="/lesson/A-rough-scan-for-Vue-Router-match-route-and-components-pass-values-and-navigate.html" class="sidebar-link">A rough scan for Vue Router: match route and components, pass values and navigate</a></li><li><a href="/lesson/从法律学校得来的一些音视频经验.html" class="sidebar-link">从法律学校得来的一些音视频经验</a></li><li><a href="/lesson/工作中某次接口优化暴露的一些问题和个人反思.html" class="sidebar-link">工作中某次接口优化暴露的一些问题和个人反思</a></li><li><a href="/lesson/Prettier在安监的故事.html" class="active sidebar-link">Prettier在安监的故事</a></li><li><a href="/lesson/你这样理解过防抖和节流吗？.html" class="sidebar-link">你这样理解过防抖和节流吗？</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>这是一篇项目经验所得的文档。发在这里备忘吧。</p> <p>大家好，前段时间换了很多电脑。最终锚定的是卜楠同志以前使用的。拉下美好的安监前端代码一看，卜楠同志良好的Eslint规范使自己的代码充满了各色报错的横杠杠，当然，作为一个能站着就不坐着的全站开发，睁一只眼闭一只眼是咱的一向准则。</p> <p>故事的转折来自艳姐，有天清晨突然发现微信里多了一个莫名其妙的群：不要问我从哪里来。当我以为是又被拉进一个炒股群而要举报的时候，咦？艳姐熟悉的头像跳了出来，并附带着两个充满庄严知识与求知渴望的链接。我的小鼠标就不受控制地滑了上去。</p> <p>由上文两个段落得知：接下来要安装Prettier了。</p> <h4 id="第一步：安装prettier。"><a href="#第一步：安装prettier。" class="header-anchor">#</a> 第一步：安装Prettier。</h4> <p>在VSCode扩展里搜索 ‘prettier’，第一个即是。</p> <h4 id="第二步：配置prettier。"><a href="#第二步：配置prettier。" class="header-anchor">#</a> 第二步：配置Prettier。</h4> <p>在项目根目录下新建  .prettierrc  文件。然后一项项配置即可。</p> <div class="language- extra-class"><pre class="language-text"><code>一些基础配置
+{ 
+  &quot;bracketSpacing&quot;: true, 
+  &quot;printWidth&quot;: 160,
+  &quot;semi&quot;: false,
+  &quot;singleQuote&quot;: true
+}
+</code></pre></div><h4 id="第三步：和已有的-linters-整合。"><a href="#第三步：和已有的-linters-整合。" class="header-anchor">#</a> 第三步：和已有的 linters 整合。</h4> <p>因为咱们项目之前已有linter，这两个格式化的配置可能存在冲突，所以需要整合一下。别急，我知道你们肯定会问：为什么有Linter了，还要有prettier？</p> <p>Linters校验一些格式错误和潜在的代码错误。而Prettier仅关注代码格式，从头格式化开发者的代码，使得格式方面错误消灭殆尽。</p> <p>也就是二者互补，干活会好点。</p> <p>好了，那如何整合呢？主要分为两步：一是将二者可能冲突的配置在linter里失效，借助了<code>eslint-config-prettier</code>插件；二是扩展linter使得可以用 Prettier 来格式化文件，用到了<code>eslint-plugin-prettier</code>。</p> <h6 id="_3-1-安装eslint-config-prettier插件"><a href="#_3-1-安装eslint-config-prettier插件" class="header-anchor">#</a> 3.1 安装<code>eslint-config-prettier</code>插件</h6> <p>首先执行<code>npm install eslint-config-prettier</code>，然后在项目文件<code>eslintrc.json</code>里:</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+	<span class="token string">&quot;extends&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;prettier&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h6 id="_3-2-安装eslint-plugin-prettier插件"><a href="#_3-2-安装eslint-plugin-prettier插件" class="header-anchor">#</a> 3.2 安装<code>eslint-plugin-prettier</code>插件</h6> <p>首先执行<code>npm install eslint-plugin-prettier</code>，然后在项目文件<code>eslintrc.json</code>里:</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+	<span class="token string">&quot;plugins&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;prettier&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="第四步：shift-alt-f"><a href="#第四步：shift-alt-f" class="header-anchor">#</a> 第四步：<code>Shift + Alt + F</code></h4> <p>接下来使用如题的快捷键就可以 .prettierrc  文件里的配置应用到当前文件了。</p> <p>谢谢艳姐！</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/lesson/工作中某次接口优化暴露的一些问题和个人反思.html" class="prev">
+        工作中某次接口优化暴露的一些问题和个人反思
+      </a></span> <span class="next"><a href="/lesson/你这样理解过防抖和节流吗？.html">
+        你这样理解过防抖和节流吗？
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3b108071.js" defer></script><script src="/assets/js/2.a8d025dd.js" defer></script><script src="/assets/js/15.5beec632.js" defer></script>
+  </body>
+</html>

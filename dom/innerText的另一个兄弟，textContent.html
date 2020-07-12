@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>innerText的另一个兄弟，textContent | sisteryang</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    <link rel="icon" href="/Ymir.jpg">
+    <meta name="description" content="Hi, it's my new blog based on vuepress.">
+    <link rel="preload" href="/assets/css/0.styles.5f628cc9.css" as="style"><link rel="preload" href="/assets/js/app.3b108071.js" as="script"><link rel="preload" href="/assets/js/2.a8d025dd.js" as="script"><link rel="preload" href="/assets/js/10.fa59633c.js" as="script"><link rel="prefetch" href="/assets/js/11.4f441155.js"><link rel="prefetch" href="/assets/js/12.a37a8068.js"><link rel="prefetch" href="/assets/js/13.0f4f52f7.js"><link rel="prefetch" href="/assets/js/14.aa467182.js"><link rel="prefetch" href="/assets/js/15.5beec632.js"><link rel="prefetch" href="/assets/js/16.6965518a.js"><link rel="prefetch" href="/assets/js/17.0376a938.js"><link rel="prefetch" href="/assets/js/18.c0b0bcbc.js"><link rel="prefetch" href="/assets/js/19.7052d89a.js"><link rel="prefetch" href="/assets/js/3.e232f7bd.js"><link rel="prefetch" href="/assets/js/4.685e2bcc.js"><link rel="prefetch" href="/assets/js/5.a85fdaa3.js"><link rel="prefetch" href="/assets/js/6.42b5d586.js"><link rel="prefetch" href="/assets/js/7.149084ac.js"><link rel="prefetch" href="/assets/js/8.cc903289.js"><link rel="prefetch" href="/assets/js/9.e8805932.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.5f628cc9.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sisteryang</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link router-link-active">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/js/" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/dom/" class="nav-link router-link-active">
+  DOM
+</a></div><div class="nav-item"><a href="/lesson/" class="nav-link">
+  Lesson
+</a></div><div class="nav-item"><a href="/about/" class="nav-link">
+  About
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/dom/" class="sidebar-link">DOM欢乐不欢乐</a></li><li><a href="/dom/innerText的另一个兄弟，textContent.html" class="active sidebar-link">innerText的另一个兄弟，textContent</a></li><li><a href="/dom/监测DOM变化的一大利器——MutationObserver.html" class="sidebar-link">监测DOM变化的一大利器——MutationObserver</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>今天看Node对象时瞥了一眼textContent，没想到有很多需要注意的地方，并且有不少可替代innerText和innerHTML的情境。</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>text<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>You<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>are<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>being<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>watched<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+  <span class="token keyword">let</span> text <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'text'</span><span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'innerText'</span><span class="token punctuation">,</span> text<span class="token punctuation">.</span>innerText<span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'innerHTML'</span><span class="token punctuation">,</span> text<span class="token punctuation">.</span>innerHTML<span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'textContent'</span><span class="token punctuation">,</span> text<span class="token punctuation">.</span>textContent<span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>以上一段代码块，在工作台会分别打印出怎样的结果？先自己想想哦。</p> <div class="language- extra-class"><pre class="language-text"><code>innerText You are being watched
+
+innerHTML 
+  &lt;span&gt;You&lt;/span&gt;
+  &lt;span&gt;are&lt;/span&gt;
+  &lt;span&gt;being&lt;/span&gt;
+  &lt;span&gt;watched&lt;/span&gt;
+
+textContent 
+  You
+  are
+  being
+  watched
+</code></pre></div><p>能看出除了innerHTML打印出了 .text 的html之外，innerText 和 textContent 均打印出了其包含的文字。区别在于 innerText 打印的是一行，正如此元素在页面展示的一样，而 textContent 分行打印。这就与我们要说的二者差别有关了。</p> <p>首先我们要了解，textContent 的值依据节点的不同而不同，例如文本节点与元素节点的表现。文本节点的 textContent 会返回这个元素包含的text文本，而元素节点返回的是此节点所有子节点的 textContent 的连接（concatenation）。</p> <p>在这个例子里，div.text 这个节点的子节点除了我们一般认为的 span 之外，还有换行的 text 节点。没错，即使是 html 文档中的换行，在DOM中都会把它看做一个 text 节点。而 textContent 既然要打印所有子节点，自然会打印出 ‘换行’节点了。</p> <p>我们把 html 文档中的换行去掉再打印一下：</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;div id=&quot;text&quot;&gt;
+  &lt;span&gt;You&lt;/span&gt;&lt;span&gt;are&lt;/span&gt;&lt;span&gt;being&lt;/span&gt;&lt;span&gt;watched&lt;/span&gt;
+&lt;/div&gt;
+
+innerText Youarebeingwatched
+
+innerHTML 
+  &lt;span&gt;You&lt;/span&gt;&lt;span&gt;are&lt;/span&gt;&lt;span&gt;being&lt;/span&gt;&lt;span&gt;watched&lt;/span&gt;
+  
+textContent 
+  Youarebeingwatched
+</code></pre></div><p>innerText 与 textContent 还有一处在性能上的差异。innerText 并不像 textContent 返回所有节点内容，而是会考虑 style 的影响，它不会返回 hidden 掉的元素。而这重考虑，又会导致页面的回流，回流很吃内存，一般来说应尽量避免回流。</p> <p>在MDN里提到的 innerHTML 和 textContent 的区别之一也是性能上的，innerHTML 有一步将内容解析为 html，而textContent 不需要这步，所以某种情境下，textContent 也比 innerHTML 在性能表现上更优越。</p> <p>综上，以后遇到 innerHTML 或者 innerText 的使用场景，可以多考虑一下角落里的 textContent。PS: 此属性的兼容性也很漂亮。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/dom/" class="prev router-link-active">
+        DOM欢乐不欢乐
+      </a></span> <span class="next"><a href="/dom/监测DOM变化的一大利器——MutationObserver.html">
+        监测DOM变化的一大利器——MutationObserver
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3b108071.js" defer></script><script src="/assets/js/2.a8d025dd.js" defer></script><script src="/assets/js/10.fa59633c.js" defer></script>
+  </body>
+</html>
