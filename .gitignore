@@ -1,0 +1,17 @@
+.DS_Store
+node_modules/
+/dist/
+/src/utils/webIp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+dist.*
+.idea
+.gitignore
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

@@ -28,6 +28,7 @@ module.exports = {
         "",
         "A-rough-scan-for-Vue-Router-match-route-and-components-pass-values-and-navigate",
         "从法律学校得来的一些音视频经验",
+        "工作中某次接口优化暴露的一些问题和个人反思",
         "Prettier在安监的故事",
         "你这样理解过防抖和节流吗？"
       ]
